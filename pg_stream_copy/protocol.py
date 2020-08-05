@@ -8,7 +8,7 @@ from typing import List, Tuple, cast
 pg_null = pack('>I', 0xFFFFFFFF)
 pg_date_epoch = date(2000, 1, 1)
 pg_timestamp_epoch = datetime(2000, 1, 1).timestamp()
-pg_timestamp_tz_epoch = datetime(2000, 1, 1, tzinfo=timezone.utc).timestamp()
+pg_timestamp_tz_epoch = datetime(2000, 1, 1, tzinfo=timezone('US/Eastern)).timestamp()
 
 
 ################################################################################
@@ -142,15 +142,11 @@ def build_date(day: date) -> bytes:
 
 
 def build_timestamp(value: datetime):
-    if value.tzinfo is not None:
-        raise Exception('datatime with timezone cannot be used for timestamp field')
-
     timestamp_ms = int((value.timestamp() - pg_timestamp_epoch) * 1_000_000)
     return _build_value(pack('>q', timestamp_ms))
 
 
 def build_timestamp_tz(value: datetime):
-
     timestamp_ms = int((value.timestamp() - pg_timestamp_tz_epoch) * 1_000_000)
     return _build_value(pack('>q', timestamp_ms))
 
