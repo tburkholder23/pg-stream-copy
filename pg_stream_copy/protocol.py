@@ -142,7 +142,8 @@ def build_date(day: date) -> bytes:
 
 
 def build_timestamp(value: datetime):                                         
-    timestamp_ms = int((value.timestamp() - pg_timestamp_epoch) * 1_000_000)
+    value_temp = timezone('US/Eastern').localize(value)
+    timestamp_ms = int((value_temp.timestamp() - pg_timestamp_tz_epoch) * 1_000_000)
     return _build_value(pack('>q', timestamp_ms))
 
 
