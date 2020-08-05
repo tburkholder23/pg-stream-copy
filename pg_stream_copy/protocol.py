@@ -150,8 +150,6 @@ def build_timestamp(value: datetime):
 
 
 def build_timestamp_tz(value: datetime):
-    if value.tzinfo is None:
-        raise Exception('datatime without timezone cannot be used for timestamptz field')
 
     timestamp_ms = int((value.timestamp() - pg_timestamp_tz_epoch) * 1_000_000)
     return _build_value(pack('>q', timestamp_ms))
