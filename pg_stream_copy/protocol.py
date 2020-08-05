@@ -7,9 +7,9 @@ from typing import List, Tuple, cast
 
 pg_null = pack('>I', 0xFFFFFFFF)
 pg_date_epoch = date(2000, 1, 1)
-pg_timestamp_epoch = datetime(2000, 1, 1).timestamp()
-pg_timestamp_tz_epoch = datetime(2000, 1, 1, tzinfo=timezone('US/Eastern)).timestamp()
 
+pg_timestamp_tz_epoch = datetime(2000, 1, 1, tzinfo=timezone('US/Eastern)).timestamp()
+pg_timestamp_epoch = pg_timestamp_tz_epoch #datetime(2000, 1, 1).timestamp()
 
 ################################################################################
 # table level
@@ -141,7 +141,7 @@ def build_date(day: date) -> bytes:
     return build_integer(days)
 
 
-def build_timestamp(value: datetime):
+def build_timestamp(value: datetime):                                         
     timestamp_ms = int((value.timestamp() - pg_timestamp_epoch) * 1_000_000)
     return _build_value(pack('>q', timestamp_ms))
 
