@@ -8,7 +8,7 @@ from typing import List, Tuple, cast
 pg_null = pack('>I', 0xFFFFFFFF)
 pg_date_epoch = date(2000, 1, 1)
 
-pg_timestamp_tz_epoch = datetime(2000, 1, 1, tzinfo=timezone('US/Eastern')).timestamp()
+pg_timestamp_tz_epoch = datetime(2000, 1, 1, tzinfo=timezone.utc).timestamp()
 pg_timestamp_epoch = pg_timestamp_tz_epoch #datetime(2000, 1, 1).timestamp()
 
 ################################################################################
